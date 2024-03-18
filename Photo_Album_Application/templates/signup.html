@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    
+        <style>
+        
+             body {
+            background-color: lightgrey;
+                 
+             }
+    
+            body {font-family: Times, serif;}
+            
+            input[type=text], input[type=password] {
+            width: 100%;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+            }
+
+            input[type=text]:focus, input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+            }
+    
+            hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+            }
+
+            button {
+            background-color: #04AA6D;
+            color: white;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 10%;
+            opacity: 0.9;
+            }
+
+            button:hover {
+            opacity:1;
+            }
+
+            .container {
+            padding: 16px;
+            }
+
+            .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+            }
+
+            @media screen and (max-width: 300px) {
+            .submitbtn {
+            width: 100%;
+            }
+    }
+</style>
+    <body>
+
+        <form action="{% url 'signup' %}" method="post" style="border:1px solid #ccc">
+        {% csrf_token %}
+            <div class="container">
+            <h1><b>Sign Up</b></h1>
+            <p>Fill this form and have ways to enjoy your photo Album</p>
+            <hr>    
+
+        <label for="first_name"><b>First Name</b></label>
+        <input type="text" placeholder="First Name" name="first name" required>
+        
+        <label for="last_name"><b>Last Name</b></label>
+        <input type="text" placeholder="Last Name" name="last name" required>
+        
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+
+        <label for="psw-repeat"><b>Confirm Password</b></label>
+        <input type="password" placeholder="Confirm Password" name="password_confirm" required>
+        
+            <div class="clearfix">
+                <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+          
+          
+        </form>
+        {% if alert %}
+        <script>
+    alert("You are now successfully registered as a customer");
+    document.location = "/login";
+  </script>
+      {% endif %}
+    </body>
+    
+</html>
