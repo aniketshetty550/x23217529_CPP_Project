@@ -66,7 +66,12 @@ def viewPhoto(request, pk):
     photo = Photo.objects.get(id=pk)
     return render(request, 'photo.html', {'photo': photo})
     
-
+def deletePhoto(request, pk):
+    photo = Photo.objects.get(id=pk)
+    print(photo)
+    photo.delete()
+    return gallery(request)
+    
 def signup(request):
     # messages.success(request,"Account created successfully.")
     if request.method == 'POST':

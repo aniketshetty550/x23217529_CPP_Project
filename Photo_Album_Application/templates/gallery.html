@@ -143,7 +143,7 @@
                                 <small>Category: {{photo.category.name}}</small>
                             </div>
                             <a href="{% url 'photo' photo.id %}" class="btn btn-outline-primary btn-sm m-1">View</a>
-                            <a class="btn btn-outline-primary btn-sm m-1" onclick ="delete_photo()">Delete</a>
+                            <a class="btn btn-outline-primary btn-sm m-1" onclick ="delete_photo({{photo.id}})">Delete</a>
                         </div>
                     </div>
                     {% empty %}
@@ -168,7 +168,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'></link>
 <script type="text/javascript">
-    function delete_photo(){
+    function delete_photo(photoId){
         swal({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -180,6 +180,15 @@
   }).then((result) => {
     if (result.value) {
     //Do Your Delete code here
+    $.ajax({
+  type: 'GET',
+    dataType:"json",
+  url: '/deletePhoto/'+photoId,
+  success: function (data, status, xhr) {
+    console.log('data: ', data);
+    //your logic
+  }
+});
       swal(
         'Deleted!',
         'Your file has been deleted.',
