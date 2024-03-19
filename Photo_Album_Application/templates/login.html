@@ -54,29 +54,31 @@ span.psw {
 </style>
 </head>
 <body>
-
+ {% if messages %}
+    <ul class="messagelist">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+    {% endif %}
 <h1><b>Login</b></h1>
 
 <form method="post" class= "form">
  {% csrf_token %}
   <div class="container">
-    <label for="firstname"><b>First Name</b></label>
-    <input type="text" placeholder="Enter First Name" name="first_name" required>
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email " name="email" required>
     
-    <label for="lastname"><b>Last Name</b></label>
-    <input type="text" placeholder="Enter Last Name" name="last_name" required>
+    <!--<label for="lastname"><b>Last Name</b></label>-->
+    <!--<input type="text" placeholder="Enter Last Name" name="last_name" required>-->
 
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="password" required>
         
     <button type="submit">Login</button>
-    
+    <a type="button" href="{% url 'signup' %}">Signup</a>
   </div>
 
 </form>
 {% if alert %}
         <script>
-    alert("You are now successfully loggedin as a customer");
+    alert("You are now successfully logged in as a customer");
     document.location = "/gallery";
   </script>
       {% endif %}

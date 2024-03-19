@@ -65,6 +65,9 @@
     }
 </style>
     <body>
+        {% if messages %}
+    <ul class="messagelist">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+    {% endif %}
 
         <form action="{% url 'signup' %}" method="post" style="border:1px solid #ccc">
         {% csrf_token %}
@@ -74,10 +77,10 @@
             <hr>    
 
         <label for="first_name"><b>First Name</b></label>
-        <input type="text" placeholder="First Name" name="first name" required>
+        <input type="text" placeholder="First Name" name="first_name" required>
         
         <label for="last_name"><b>Last Name</b></label>
-        <input type="text" placeholder="Last Name" name="last name" required>
+        <input type="text" placeholder="Last Name" name="last_name" required>
         
         <label for="email"><b>Email</b></label>
         <input type="text" placeholder="Enter Email" name="email" required>

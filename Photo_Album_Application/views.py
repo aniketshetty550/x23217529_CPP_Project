@@ -2,104 +2,129 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-
+from django.contrib.auth import authenticate, login, logout
+from .models import Category, Photo
+from django.contrib.auth import login as auth_login
 
 # Create your views here.
 
-def gallery(request):
-    return render(request, 'gallery.html')
-    
-def addPhoto(request):
-    return render(request, 'add.html')
-    
-def login(request):
-    return render(request, 'login.html')
-    
-def viewphoto(request):
-    return render(request, 'photo.html')
-    
 def home(request):
     return render(request, 'home.html')
     
-def signup(request):
-    return render(request, 'signup.html')
     
-# def signup(request):
-#     if request.method == 'POST':
-#         # Retrieve form data
-#         first_name = request.POST.get('first_name')
-#         last_name = request.POST.get('last_name')
-#         email = request.POST.get('email')
-#         password = request.POST.get('password')
-#         password_confirm = request.POST.get('password_confirm')
+def gallery(request):
+    user = request.user
+    print(user, " gallery")
+    category = request.GET.get('category')
+    if category == None:
+        photos = Photo.objects.filter(category__user=user)
+    else:
+        photos = Photo.objects.filter(
+            category__name=category, category__user=user)
 
-#         # Validate passwords
-#         if password != password_confirm:
-#             messages.error(request, "Passwords do not match.")
-#             return redirect('signup')  # Redirect back to signup page with error message
+    categories = Category.objects.filter(user=user)
+    context = {'categories': categories, 'photos': photos}
+    return render(request, 'gallery.html', context)
+    
+    
+def addPhoto(request):
+    user = request.user
 
-#         # Create new user
-#         user = User.objects.create_user(first_name=first_name, last_name=last_name, email=email, password=password)
-#         user.save()
+    categories = user.category_set.all()
 
-#         # Add success message
-#         messages.success(request, "Account created successfully.")
+    if request.method == 'POST':
+        data = request.POST
+        images = request.FILES.getlist('images')
+
+        if data['category'] != 'none':
+            category = Category.objects.get(id=data['category'])
+        elif data['category_new'] != '':
+            category, created = Category.objects.get_or_create(
+                user=user,
+                name=data['category_new'])
+        else:
+            category = None
+
+        for image in images:
+            photo = Photo.objects.create(
+                category=category,
+                description=data['description'],
+                image=image,
+            )
+
+        return redirect('gallery')
+
+    context = {'categories': categories}
+    return render(request, 'add.html', context)
+    
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
+    
+    
+def viewPhoto(request, pk):
+    photo = Photo.objects.get(id=pk)
+    return render(request, 'photo.html', {'photo': photo})
+    
+
+def signup(request):
+    # messages.success(request,"Account created successfully.")
+    if request.method == 'POST':
         
-#         # Redirect to login page
-#         return redirect('login')  # Assuming you have a URL named 'login' defined in your URLconf
-#     else:
-#         # Render the signup form template
-#         return render(request, 'signup.html')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password_confirm = request.POST.get('password_confirm')
 
-
-
-# def signup(request):
-#     if request.method == 'POST':
-#         # Retrieve form data
-#         first_name = request.POST.get('first_name')
-#         last_name = request.POST.get('last_name')
-#         email = request.POST.get('email')
-#         password = request.POST.get('password')
-#         password_confirm = request.POST.get('password_confirm')
-
-#         # Validate passwords
-#         if password != password_confirm:
-#             messages.error(request, "Passwords do not match.")
-#             return redirect('signup')  # Redirect back to signup page with error message
-
-#         # Create new user
-#         try:
-#             user = User.objects.create_user(username=email, email=email, password=password, first_name=first_name, last_name=last_name)
-#             user.save()
-#             messages.success(request, "Account created successfully.")
-#             return redirect('login')  # Redirect to login page after successful signup
-#         except Exception as e:
-#             messages.error(request, str(e))
-#             return redirect('signup')  # Redirect back to signup page with error message
-#     else:
-#         # Render the signup form template
-#         return render(request, 'signup.html')
-
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         # Assuming you have a custom user model with first_name, last_name, and password fields
-#         first_name = request.POST.get('first_name')
-#         last_name = request.POST.get('last_name')
-#         password = request.POST.get('password')
         
-#         # Authenticate user
-#         user = authenticate(request, first_name=first_name, last_name=last_name, password=password)
+        if password != password_confirm:
+            messages.error(request, "Passwords do not match.")
+            return redirect('signup') 
+
         
-#         if user is not None:
-#             # Log in the user
-#             login(request, user)
-#             # Redirect to the gallery page
-#             return redirect('/gallery')
-#         else:
-#             # Invalid login, render login page with alert
-#             return render(request, 'login.html', {'alert': True})
-#     else:
-#         # GET request, render login page
-#         return render(request, 'login.html')
+        try:
+            user = User.objects.create_user(username=email, email=email, password=password, first_name=first_name, last_name=last_name)
+            user.save()
+            messages.success(request, "Account created successfully.")
+            return redirect('login')  
+        except Exception as e:
+            messages.error(request, str(e))
+            return redirect('signup')  
+    else:
+        
+        return render(request, 'signup.html')
+    
+    
+def login(request):
+    if request.method == 'POST':
+        # Assuming you have a custom user model with first_name, last_name, and password fields
+        email = request.POST.get('email')
+        # first_name = request.POST.get('first_name')
+        # last_name = request.POST.get('last_name')
+        password = request.POST.get('password')
+        
+        # Authenticate user
+        # user = authenticate(request, first_name=first_name, last_name=last_name, password=password)
+        user = authenticate(request, username=email, password=password)
+        
+        print(user, email, password)
+        if user is None:
+            messages.error(request, "User Credential Invalid.")
+            return render(request, 'login.html')
+        else:
+            auth_login(request,user)
+            # Redirect to the gallery page
+            return redirect('/gallery')
+        
+        # if user is not None:
+        #     # Log in the user
+        #     login(request, user)
+        #     # Redirect to the gallery page
+        #     return redirect('/gallery')
+        # else:
+        #     # Invalid login, render login page with alert
+        #     return render(request, 'login.html', {'alert': True})
+    else:
+        # GET request, render login page
+        return render(request, 'login.html')

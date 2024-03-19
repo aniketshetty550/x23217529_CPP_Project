@@ -28,7 +28,7 @@
     
             
         .navbar{
-             font-family: Georgia, serif, Arial Black;
+             font-family: Times, serif, Arial Black;
              font-size: 15px;
              background-color: grey;
              height: 60px;
@@ -83,7 +83,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{%url 'home'%}"><i class="fa fa-camera" style="font-size:48px;color:black"></i></a>
+        <a class="navbar-brand" href="{%url 'home'%}"><i class="fa fa-camera" style="font-size:30px;color:black"></i></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -142,7 +142,8 @@
                             <div class="card-body">
                                 <small>Category: {{photo.category.name}}</small>
                             </div>
-                            <a href="{% url 'photo' photo.id %}" class="btn btn-outline-dark btn-sm m-1">View</a>
+                            <a href="{% url 'photo' photo.id %}" class="btn btn-outline-primary btn-sm m-1">View</a>
+                            <a class="btn btn-outline-primary btn-sm m-1" onclick ="delete_photo()">Delete</a>
                         </div>
                     </div>
                     {% empty %}
@@ -162,6 +163,51 @@
     </div>
 
 </body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'></link>
+<script type="text/javascript">
+    function delete_photo(){
+        swal({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.value) {
+    //Do Your Delete code here
+      swal(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+    }
+  })
+    }
+//     $('#delete_me').on('click', function(e){
+//   Swal({
+//     title: 'Are you sure?',
+//     text: "You won't be able to revert this!",
+//     type: 'warning',
+//     showCancelButton: true,
+//     confirmButtonColor: '#3085d6',
+//     cancelButtonColor: '#d33',
+//     confirmButtonText: 'Yes, delete it!'
+//   }).then((result) => {
+//     if (result.value) {
+//     //Do Your Delete code here
+//       Swal(
+//         'Deleted!',
+//         'Your file has been deleted.',
+//         'success'
+//       )
+//     }
+//   })
+// });
+</script>
 </html>
 
