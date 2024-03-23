@@ -11,7 +11,7 @@ from django.contrib.auth import login as auth_login
 def home(request):
     return render(request, 'home.html')
     
-    
+   
 def gallery(request):
     user = request.user
     print(user, " gallery")
