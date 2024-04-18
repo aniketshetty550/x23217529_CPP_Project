@@ -10,7 +10,6 @@ urlpatterns =[
     path('gallery/', views.gallery, name='gallery'),
     path('add/', views.addPhoto, name='add'),
     path('photo/<str:pk>/', views.viewPhoto, name='photo'),
-    # path('photo/', views.viewphoto, name='photo'),
     path('logout/', views.logoutUser, name="logout"),
     path('deletePhoto/<str:pk>/', views.deletePhoto, name="deletePhoto"),
  ]   

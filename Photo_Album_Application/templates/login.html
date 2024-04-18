@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
 body {
@@ -43,17 +45,31 @@ span.psw {
   padding-top: 16px;
 }
 
-/* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
   span.psw {
      display: block;
      float: none;
   }
+  .nav-item{
+        font-size: 20px;
+    }
   
 }
 </style>
 </head>
 <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        
+        <a class="navbar-brand" href="{%url 'home'%}"><i class="fa fa-camera" style="font-size:40px;color:black"></i></a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    
+    
  {% if messages %}
     <ul class="messagelist">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
     {% endif %}
@@ -65,8 +81,6 @@ span.psw {
     <label for="email"><b>Email</b></label>
     <input type="text" placeholder="Enter Email " name="email" required>
     
-    <!--<label for="lastname"><b>Last Name</b></label>-->
-    <!--<input type="text" placeholder="Enter Last Name" name="last_name" required>-->
 
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="password" required>
