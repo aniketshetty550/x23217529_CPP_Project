@@ -70,7 +70,8 @@ def deletePhoto(request, pk):
     photo = Photo.objects.get(id=pk)
     print(photo)
     photo.delete()
-    return gallery(request)
+    return gallery(request) 
+    
     
 def signup(request):
     # messages.success(request,"Account created successfully.")
