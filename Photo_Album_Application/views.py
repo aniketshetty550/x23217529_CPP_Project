@@ -22,8 +22,6 @@ def update(request):
     else:
         
         pass
-    
-    
    
 def gallery(request):
     user = request.user
@@ -135,15 +133,6 @@ def login(request):
             auth_login(request,user)
             # Redirect to the gallery page
             return redirect('/gallery')
-        
-        # if user is not None:
-        #     # Log in the user
-        #     login(request, user)
-        #     # Redirect to the gallery page
-        #     return redirect('/gallery')
-        # else:
-        #     # Invalid login, render login page with alert
-        #     return render(request, 'login.html', {'alert': True})
     else:
         # GET request, render login page
         return render(request, 'login.html')

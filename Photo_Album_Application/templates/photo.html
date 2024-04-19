@@ -40,14 +40,6 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col my-5">
-
-                <!--<a href="{% url 'gallery' %}" class="btn btn-primary my-3">Back to Gallery</a>-->
-
-                <!--<div style="height: 80vh">-->
-                <!--    <img style="max-width: 100%; max-height: 100%;" src="{{photo.image.url}}">-->
-
-                <!--    <p>{{photo.description}}</p>-->
-                    
                     <form method="post" action="/updatephoto/">
                     {% csrf_token %}
                 <div style="height: 80vh">
