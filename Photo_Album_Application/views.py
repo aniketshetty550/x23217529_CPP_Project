@@ -10,6 +10,19 @@ from django.contrib.auth import login as auth_login
 
 def home(request):
     return render(request, 'home.html')
+
+def update(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        photo = Photo.objects.get(id=id)
+        new_description = request.POST.get('description')
+        photo.description = new_description
+        photo.save()
+        return redirect('gallery')  
+    else:
+        
+        pass
+    
     
    
 def gallery(request):

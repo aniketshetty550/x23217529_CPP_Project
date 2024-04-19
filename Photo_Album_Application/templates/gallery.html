@@ -140,6 +140,8 @@
 
                             <div class="card-body">
                                 <small>Category: {{photo.category.name}}</small>
+                                <br>
+                                <small>Description: {{photo.description}}</small>
                             </div>
                             <a href="{% url 'photo' photo.id %}" class="btn btn-outline-primary btn-sm m-1">View</a>
                             <a class="btn btn-outline-primary btn-sm m-1" onclick ="delete_photo({{photo.id}})">Delete</a>

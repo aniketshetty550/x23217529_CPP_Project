@@ -6,6 +6,8 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Photo</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -23,19 +25,41 @@
             height: 35%;
             overflow: hidden;
     }
+    .nav-item{
+        font-size: 20px;
+    }
+    
 </style>
 
-<body class="m-5">
+<body class="m-2">
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'gallery' %}"><i class="fa fa-camera" style="font-size:30px;color:black"></i></a>
+    </nav>
+    
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col">
+            <div class="col my-5">
 
-                <a href="{% url 'gallery' %}" class="btn btn-primary my-3">Back to Gallery</a>
+                <!--<a href="{% url 'gallery' %}" class="btn btn-primary my-3">Back to Gallery</a>-->
 
+                <!--<div style="height: 80vh">-->
+                <!--    <img style="max-width: 100%; max-height: 100%;" src="{{photo.image.url}}">-->
+
+                <!--    <p>{{photo.description}}</p>-->
+                    
+                    <form method="post" action="/updatephoto/">
+                    {% csrf_token %}
                 <div style="height: 80vh">
+                    <input type="text" placeholder="id" name="id" required value="{{photo.id}}" style="display:none">
                     <img style="max-width: 100%; max-height: 100%;" src="{{photo.image.url}}">
-
-                    <p>{{photo.description}}</p>
+                    <br>
+                    <label for="description"><b>Description</b></label>
+                    <input type="text" placeholder="description" name="description" required value="{{photo.description}}">
+                    <button type="submit" class="btn btn-dark">Submit</button>
+                </div>
+                </form>
+                
                 </div>
 
             </div>
